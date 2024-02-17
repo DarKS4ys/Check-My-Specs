@@ -10,10 +10,31 @@ import OSAnim from '@/public/OSAnim.json';
 import { InfoCard, InfoLabel, InfoLabelGroup } from '@/app/components/InfoCard';
 import Link from 'next/link';
 
+type FixedDetector = Detector & {
+  cpu: {
+    vendor: string,
+    architecture: string,
+    cores: number,
+    platform: string,
+  },
+  browser: {
+    name: string,
+    version: string,
+  },
+  os: {
+    name: string,
+    versionName: string,
+    version: string,
+  },
+  device: any, 
+  gpu: any,
+  platform: string,
+};
+
 const SystemData = () => {
   const [gpuTier, setGpuTier] = useState<TierResult | null>(null);
   const [currentTime, setCurrentTime] = useState<string>('');
-  const [detector, setDetector] = useState<Detector | null>(null);
+  const [detector, setDetector] = useState<FixedDetector | null>(null);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -39,6 +60,7 @@ const SystemData = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // @ts-ignore
       setDetector(new Detector());
     }
   }, []);
