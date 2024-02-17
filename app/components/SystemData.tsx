@@ -1,26 +1,26 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { getGPUTier, TierResult } from "detect-gpu";
-import { Detector } from "detector-js";
-import { RingLoader } from "react-spinners";
-import Lottie from "lottie-react";
-import GPUAnimation from "@/public/gpuAnim.json";
-import CPUAnimation from "@/public/CPUAnim.json";
-import BrowserAnimation from "@/public/browserAnim.json";
-import OSAnim from "@/public/OSAnim.json";
-import { InfoCard, InfoLabel, InfoLabelGroup } from "@/app/components/InfoCard";
-import Link from "next/link";
+'use client';
+import React, { useState, useEffect, Suspense } from 'react';
+import { getGPUTier, TierResult } from 'detect-gpu';
+import { Detector } from 'detector-js';
+import { RingLoader } from 'react-spinners';
+import GPUAnimation from '@/public/gpuAnim.json';
+import CPUAnimation from '@/public/CPUAnim.json';
+import BrowserAnimation from '@/public/browserAnim.json';
+import OSAnim from '@/public/OSAnim.json';
+import { InfoCard, InfoLabel, InfoLabelGroup } from '@/app/components/InfoCard';
+import Link from 'next/link';
 
 const SystemData = () => {
   const [gpuTier, setGpuTier] = useState<TierResult | null>(null);
-  const [currentTime, setCurrentTime] = useState<string>("");
+  const [currentTime, setCurrentTime] = useState<string>('');
+  const [detector, setDetector] = useState<Detector | null>(null);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       const now = new Date();
       const formattedTime = now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
       });
       setCurrentTime(formattedTime);
     }, 1000);
@@ -37,7 +37,11 @@ const SystemData = () => {
     fetchGpuTier();
   }, []);
 
-  const detector = new Detector();
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setDetector(new Detector());
+    }
+  }, []);
 
   const styleGPUName = (str: string | undefined) => {
     if (!str) {
@@ -45,23 +49,23 @@ const SystemData = () => {
     }
 
     const prefixes = [
-      "amd",
-      "nvidia",
-      "gtx",
-      "rtx",
-      "rx",
-      "quadro",
-      "radeon",
-      "g",
-      "hd",
-      "gts",
-      "firepro",
-      "titan",
-      "vega",
-      "iris",
-      "intel",
+      'amd',
+      'nvidia',
+      'gtx',
+      'rtx',
+      'rx',
+      'quadro',
+      'radeon',
+      'g',
+      'hd',
+      'gts',
+      'firepro',
+      'titan',
+      'vega',
+      'iris',
+      'intel',
     ];
-    const words = str.split(" ");
+    const words = str.split(' ');
 
     const capitalizedWords = words.map((word) => {
       const lowercaseWord = word.toLowerCase();
@@ -72,16 +76,16 @@ const SystemData = () => {
       }
     });
 
-    return capitalizedWords.join(" ");
+    return capitalizedWords.join(' ');
   };
 
   return (
-    <div className="relative flex flex-col gap-4 items-center justify-center">
+    <div className="relative flex flex-col h-full my-auto gap-4 items-center justify-center">
       {gpuTier !== null ? (
         <div className="flex flex-col gap-8">
           <div className="flex justify-between gap-4 text-3xl md:text-5xl font-medium">
             <h1>Device Info</h1>
-            <h1>{currentTime || "Loading..."}</h1>
+            <h1>{currentTime || 'Loading...'}</h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InfoCard
@@ -96,7 +100,10 @@ const SystemData = () => {
                 <InfoLabel label="Tier:" value={gpuTier.tier ?? '?'} />
                 <InfoLabel label="Fps:" value={gpuTier.fps ?? '?'} />
               </InfoLabelGroup>
-              <InfoLabel label="Mobile:" value={gpuTier.isMobile ?? 'unknown'} />
+              <InfoLabel
+                label="Mobile:"
+                value={gpuTier.isMobile ?? 'unknown'}
+              />
             </InfoCard>
 
             <InfoCard
@@ -109,15 +116,18 @@ const SystemData = () => {
             >
               <InfoLabel
                 label="Manufacturer:"
-                value={styleGPUName(detector.cpu.vendor) || 'unknown'}
+                value={styleGPUName(detector?.cpu.vendor) || 'unknown'}
               />
               <InfoLabelGroup>
-                <InfoLabel label="Cores:" value={detector.cpu.cores ?? '?'} />
-                <InfoLabel label="Platform:" value={detector.cpu.platform ?? '?'} />
+                <InfoLabel label="Cores:" value={detector?.cpu.cores ?? '?'} />
+                <InfoLabel
+                  label="Platform:"
+                  value={detector?.cpu.platform ?? '?'}
+                />
               </InfoLabelGroup>
               <InfoLabel
                 label="Architecture:"
-                value={detector.cpu.architecture || 'unknown'}
+                value={detector?.cpu.architecture || 'unknown'}
               />
             </InfoCard>
 
@@ -128,8 +138,14 @@ const SystemData = () => {
               label="Browser"
               animation={BrowserAnimation}
             >
-              <InfoLabel label="Name:" value={detector.browser.name ?? 'unknown'} />
-              <InfoLabel label="Version:" value={detector.browser.version ?? 'unknown'} />
+              <InfoLabel
+                label="Name:"
+                value={detector?.browser.name ?? 'unknown'}
+              />
+              <InfoLabel
+                label="Version:"
+                value={detector?.browser.version ?? 'unknown'}
+              />
             </InfoCard>
 
             <InfoCard
@@ -139,9 +155,15 @@ const SystemData = () => {
               label="Operating System"
               animation={OSAnim}
             >
-              <InfoLabel label="Name:" value={detector.os.name ?? 'unknown'} />
-              <InfoLabel label="Version:" value={detector.os.versionName ?? 'unknown'} />
-              <InfoLabel label="Full Version:" value={detector.os.version ?? 'unknown'} />
+              <InfoLabel label="Name:" value={detector?.os.name ?? 'unknown'} />
+              <InfoLabel
+                label="Version:"
+                value={detector?.os.versionName ?? 'unknown'}
+              />
+              <InfoLabel
+                label="Full Version:"
+                value={detector?.os.version ?? 'unknown'}
+              />
             </InfoCard>
           </div>
         </div>
@@ -189,4 +211,18 @@ const SystemData = () => {
   );
 };
 
-export default SystemData;
+const SystemDataClient = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="my-auto">
+          <RingLoader color="white" size={120} />
+        </div>
+      }
+    >
+      <SystemData />
+    </Suspense>
+  );
+};
+
+export default SystemDataClient;
