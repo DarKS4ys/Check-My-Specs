@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Check My Specs
 
-## Getting Started
+Discover the power of your device with Check My Specs! Dive into the depths of your device's capabilities with our cutting-edge tool. Unveil every detail of your GPU, OS, CPU, and browser effortlessly. Maximize your performance and stay ahead with our intuitive interface.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **GPU Information:** Get detailed information about your Graphics Processing Unit.
+- **OS Details:** View information about your Operating System, including version and architecture.
+- **CPU Insights:** Learn more about your CPU, including cores and vendor details.
+- **Browser Stats:** Check your browser version and other relevant information.
+- **Intuitive Interface:** Our user-friendly design makes it easy to access and understand your device specs.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How to Use
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Visit Our Website:** Go to [Check My Specs](https://checkmyspecs.vercel.app) to access the tool.
+2. **View Your Results:** Explore the information about your device.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Get in Touch
 
-## Learn More
+For any inquiries or feedback, feel free to reach out to us at [melih@stoiccord.com](mailto:contact@checkmyspecs.com).
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
